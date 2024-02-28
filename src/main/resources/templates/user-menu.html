@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Menu</title>
+  <link th:href="@{/css/loader.css}" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/12f987d29c.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+</head>
+<body class="font-['Poppins'] bg-[#343a40]">
+
+<!-- primary-color-[#212529] -->
+
+<!-- Navigation -->
+<nav class="bg-[#212529] fixed w-full z-20 top-0 left-0 border-b border-white">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a th:href="@{/}" class="text-xl border-2 border-white text-white top-5 left-5 rounded rounded-md bg-transparent z-[999] p-2 px-3 hover:bg-white hover:text-[#212529] hover:cursor-pointer hover:scale-[120%] transition">
+      <i class="fa-solid fa-house"></i>
+    </a>
+    <div class="flex md:order-2">
+      <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full p-2 border-2 border-white rounded-lg md:w-auto text-white hover:bg-white hover:text-[#162938] transition"><i class="fa-regular fa-circle-user mr-2"></i><th:block th:text="${currentUser.getFullName()}"/></button>
+      <!-- Dropdown menu -->
+      <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y rounded-lg shadow w-44 divide-[#162938]">
+        <ul class="py-2 text-sm text-black" aria-labelledby="dropdownLargeButton">
+          <li>
+            <a th:href="@{/user/my-tickets}" class="block px-4 py-2 hover:bg-[#212529] hover:text-white">My tickets</a>
+          </li>
+          <li>
+            <!-- Balance fill modal toggle -->
+            <button data-modal-target="balance-modal" data-modal-toggle="balance-modal" class="block text-left px-4 py-2 hover:bg-[#212529] hover:text-white w-full" type="button">
+              Fill balance
+            </button>
+          </li>
+        </ul>
+      </div>
+      <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:flex-row md:space-x-8 md:mt-0">
+        <li>
+          <button onclick="allTr()" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800" type="button">
+            All
+          </button>
+        </li>
+        <li>
+          <button onclick="busTr()" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800" type="button">
+            Business class
+          </button>
+        </li>
+        <li>
+          <button onclick="staTr()" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800" type="button">
+            Standard class
+          </button>
+        </li>
+        <li>
+          <button onclick="ecoTr()" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800" type="button">
+            Economy class
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Search bar -->
+<form id="search-form" method="post" th:action="@{/trains/search}" class="mt-[15vh] px-[25%]">
+  <div class="flex">
+
+    <select name="start" id="from" required class="text-white bg-transparent border-2 border-r-transparent border-white rounded-l-lg hover:bg-white hover:text-[#212529] transition text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
+      <option value="ALL" selected>From</option>
+      <option value="ANDIJAN">ANDIJAN</option>
+      <option value="FERGANA">FERGANA</option>
+      <option value="NAMANGAN">NAMANGAN</option>
+      <option value="TASHKENT">TASHKENT</option>
+      <option value="SIRDARYA">SIRDARYA</option>
+      <option value="JIZZAKH">JIZZAKH</option>
+      <option value="SAMARKAND">SAMARKAND</option>
+      <option value="KASHKADARYA">KASHKADARYA</option>
+      <option value="SURKHANDARYA">SURKHANDARYA</option>
+      <option value="BUKHARA">BUKHARA</option>
+      <option value="NAVOI">NAVOI</option>
+      <option value="KHOREZM">KHOREZM</option>
+      <option value="NUKUS">NUKUS</option>
+    </select>
+    <select name="end" id="to" class="text-white bg-transparent border-2 border-r-transparent border-white hover:bg-white hover:text-[#212529] transition text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
+      <option value="ALL" selected>To</option>
+      <option value="ANDIJAN">ANDIJAN</option>
+      <option value="FERGANA">FERGANA</option>
+      <option value="NAMANGAN">NAMANGAN</option>
+      <option value="TASHKENT">TASHKENT</option>
+      <option value="SIRDARYA">SIRDARYA</option>
+      <option value="JIZZAKH">JIZZAKH</option>
+      <option value="SAMARKAND">SAMARKAND</option>
+      <option value="KASHKADARYA">KASHKADARYA</option>
+      <option value="SURKHANDARYA">SURKHANDARYA</option>
+      <option value="BUKHARA">BUKHARA</option>
+      <option value="NAVOI">NAVOI</option>
+      <option value="KHOREZM">KHOREZM</option>
+      <option value="NUKUS">NUKUS</option>
+    </select>
+    <select name="class" id="class" class="text-white bg-transparent border-2 border-r-transparent border-white hover:bg-white hover:text-[#212529] transition text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
+      <option value="ALL" selected>Class</option>
+      <option value="BUSINESS">BUSINESS</option>
+      <option value="STANDARD">STANDARD</option>
+      <option value="ECONOMY">ECONOMY</option>
+    </select>
+    <input required name="time" type="datetime-local" class="text-white w-full bg-transparent border-2 border-r-transparent border-white hover:bg-white hover:text-[#212529] transition">
+    <button type="submit" class="p-2.5 text-sm font-medium text-white bg-transparent border-2 border-white hover:bg-white hover:text-[#162938] rounded-r-lg border focus:ring-4 focus:outline-none focus:ring-blue-800">
+      <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      <span class="sr-only">Search</span>
+    </button>
+  </div>
+</form>
+
+<!-- All Train table -->
+<div id="allTrains" class="overflow-x-auto mt-[5vh] px-20">
+  <table class="w-full text-sm text-left text-white">
+    <thead class="text-xs uppercase bg-black text-white">
+    <tr>
+      <th scope="col" class="px-10 py-3">Train</th>
+      <th scope="col" class="px-10 py-3">Departure</th>
+      <th scope="col" class="px-10 py-3">From</th>
+      <th scope="col" class="px-10 py-3">To</th>
+      <th scope="col" class="px-10 py-3">Train capacity</th>
+      <th scope="col" class="px-10 py-3">Train class</th>
+      <th scope="col" class="px-[20px] py-3">Price</th>
+      <th scope="col" class="py-3">
+        <span class="sr-only">View</span>
+      </th>
+    </tr>
+    </thead>
+    <tbody th:each="train: ${allTrains}">
+    <tr class="border-b border-gray-700">
+      <th scope="row" class="px-10 py-3 font-medium whitespace-nowrap text-white" th:text="${train.getName()}"></th>
+      <td class="px-10 py-3" th:text="${train.getDeparture().getYear() + '/' + train.getDeparture().getMonthValue() + '/' + train.getDeparture().getDayOfMonth() + ' ' + train.getDeparture().getHour() + ':' + train.getDeparture().getMinute()}"></td>
+      <td class="px-10 py-3" th:text="${train.getStartPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getEndPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getSeats().size() + '/' + availableSeats.get(train.getId())}"></td>
+      <td class="px-10 py-3" th:text="${train.getTrainClass()}"></td>
+      <td class="px-[20px] py-3" th:text="'$' + ${train.getPrice()}"></td>
+      <td class="py-3 flex items-center justify-end">
+        <!-- Select button -->
+        <a th:href="@{|/trains/train-edit/${train.getId()}|}">
+          <button type="button" class="mx-5 text-white bg-transparent border-2 border-white hover:bg-white hover:text-[#162938] transition inline-flex items-center focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-primary-800">
+            Select train
+          </button>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Business Train table -->
+<div id="businessTrains" class="hidden overflow-x-auto mt-[5vh] px-20">
+  <table class="w-full text-sm text-left text-white">
+    <thead class="text-xs uppercase bg-black text-white">
+    <tr>
+      <th scope="col" class="px-10 py-3">Train</th>
+      <th scope="col" class="px-10 py-3">Departure</th>
+      <th scope="col" class="px-10 py-3">From</th>
+      <th scope="col" class="px-10 py-3">To</th>
+      <th scope="col" class="px-10 py-3">Seats available</th>
+      <th scope="col" class="px-10 py-3">Train class</th>
+      <th scope="col" class="px-[20px] py-3">Price</th>
+      <th scope="col" class="py-3">
+        <span class="sr-only">View</span>
+      </th>
+    </tr>
+    </thead>
+    <tbody th:each="train: ${allTrains}">
+    <tr class="border-b border-gray-700" th:if="${train.getTrainClass().name() == 'BUSINESS'}">
+      <th scope="row" class="px-10 py-3 font-medium whitespace-nowrap text-white" th:text="${train.getName()}"></th>
+      <td class="px-10 py-3" th:text="${train.getDeparture().getYear() + '/' + train.getDeparture().getMonthValue() + '/' + train.getDeparture().getDayOfMonth() + ' ' + train.getDeparture().getHour() + ':' + train.getDeparture().getMinute()}"></td>
+      <td class="px-10 py-3" th:text="${train.getStartPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getEndPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getSeats().size() + '/' + availableSeats.get(train.getId())}"></td>
+      <td class="px-10 py-3" th:text="${train.getTrainClass()}"></td>
+      <td class="px-[20px] py-3" th:text="${'$' + train.getPrice()}"></td>
+      <td class="py-3 flex items-center justify-end">
+        <!-- Select button -->
+        <a th:href="@{|/train-edit/${train.getId()}|}">
+          <button type="button" class="mx-5 text-white bg-transparent border-2 border-white hover:bg-white hover:text-[#162938] transition inline-flex items-center focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-primary-800">
+            Select train
+          </button>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Standard Train table -->
+<div id="standardTrains" class="hidden overflow-x-auto mt-[5vh] px-20">
+  <table class="w-full text-sm text-left text-white">
+    <thead class="text-xs uppercase bg-black text-white">
+    <tr>
+      <th scope="col" class="px-10 py-3">Train</th>
+      <th scope="col" class="px-10 py-3">Departure</th>
+      <th scope="col" class="px-10 py-3">From</th>
+      <th scope="col" class="px-10 py-3">To</th>
+      <th scope="col" class="px-10 py-3">Seats available</th>
+      <th scope="col" class="px-10 py-3">Train class</th>
+      <th scope="col" class="px-[20px] py-3">Price</th>
+      <th scope="col" class="py-3">
+        <span class="sr-only">View</span>
+      </th>
+    </tr>
+    </thead>
+    <tbody th:each="train: ${allTrains}">
+    <tr class="border-b border-gray-700" th:if="${train.getTrainClass().name() == 'STANDARD'}">
+      <th scope="row" class="px-10 py-3 font-medium whitespace-nowrap text-white" th:text="${train.getName()}"></th>
+      <td class="px-10 py-3" th:text="${train.getDeparture().getYear() + '/' + train.getDeparture().getMonthValue() + '/' + train.getDeparture().getDayOfMonth() + ' ' + train.getDeparture().getHour() + ':' + train.getDeparture().getMinute()}"></td>
+      <td class="px-10 py-3" th:text="${train.getStartPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getEndPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getSeats().size() + '/' + availableSeats.get(train.getId())}"></td>
+      <td class="px-10 py-3" th:text="${train.getTrainClass()}"></td>
+      <td class="px-[20px] py-3" th:text="${'$' + train.getPrice()}"></td>
+      <td class="py-3 flex items-center justify-end">
+        <!-- Select button -->
+        <a th:href="@{|/train-edit/${train.getId()}|}">
+          <button type="button" class="mx-5 text-white bg-transparent border-2 border-white hover:bg-white hover:text-[#162938] transition inline-flex items-center focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-primary-800">
+            Select train
+          </button>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Economy Train table -->
+<div id="economyTrains" class="hidden overflow-x-auto mt-[5vh] px-20">
+  <table class="w-full text-sm text-left text-white">
+    <thead class="text-xs uppercase bg-black text-white">
+    <tr>
+      <th scope="col" class="px-10 py-3">Train</th>
+      <th scope="col" class="px-10 py-3">Departure</th>
+      <th scope="col" class="px-10 py-3">From</th>
+      <th scope="col" class="px-10 py-3">To</th>
+      <th scope="col" class="px-10 py-3">Seats available</th>
+      <th scope="col" class="px-10 py-3">Train class</th>
+      <th scope="col" class="px-[20px] py-3">Price</th>
+      <th scope="col" class="py-3">
+        <span class="sr-only">View</span>
+      </th>
+    </tr>
+    </thead>
+    <tbody th:each="train: ${allTrains}">
+    <tr class="border-b border-gray-700" th:if="${train.getTrainClass().name() == 'ECONOMY'}">
+      <th scope="row" class="px-10 py-3 font-medium whitespace-nowrap text-white" th:text="${train.getName()}"></th>
+      <td class="px-10 py-3" th:text="${train.getDeparture().getYear() + train.getDeparture().getMonthValue() + train.getDeparture().getDayOfMonth() + '  ' + train.getDeparture().getHour() + ':' + train.getDeparture().getMinute()}"></td>
+      <td class="px-10 py-3" th:text="${train.getStartPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getEndPoint()}"></td>
+      <td class="px-10 py-3" th:text="${train.getSeats().size() + '/' + availableSeats.get(train.getId())}"></td>
+      <td class="px-10 py-3" th:text="${train.getTrainClass()}"></td>
+      <td class="px-[20px] py-3" th:text="'$' + ${train.getPrice()}"></td>
+      <td class="py-3 flex items-center justify-end">
+        <!-- Select button -->
+        <a th:href="@{|/train-edit/${train.getId()}|}">
+          <button type="button" class="mx-5 text-white bg-transparent border-2 border-white hover:bg-white hover:text-[#162938] transition inline-flex items-center focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-primary-800">
+            Select train
+          </button>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Balance fill modal -->
+<div id="balance-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative w-full max-w-md max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-[#212529] rounded-lg shadow">
+      <button type="button" class="absolute top-3 right-2.5 bg-black rounded-lg text-white text-sm p-1.5 ml-auto inline-flex items-center hover:bg-white hover:text-black" data-modal-hide="balance-modal">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <h3 class="mb-4 pr-5 text-xl font-bold text-white">Your current balance is: <th:block th:text="${currentUser.getBalance()}"/></h3>
+        <form class="space-y-6" th:action="@{/user/fill-balance}" method="post">
+          <div>
+            <label for="amount" class="block mb-2 text-sm font-medium text-white">Enter amount you want to add</label>
+            <input min="1" max="100000000" type="number" name="amount" id="amount" class="border text-md rounded-lg focus:ring-[#8ecae6] focus:border-[#8ecae6] block w-full p-2.5 bg-white border-white placeholder-gray-400" placeholder="amount" required="required">
+          </div>
+          <input name="userId" type="hidden" th:value="${currentUser.getId()}">
+          <button type="submit" class="w-full focus:ring-4 text-white focus:outline-none font-bold rounded-lg text-md px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#162938] transition focus:ring-blue-800">Fill my balance</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Not found alert -->
+<div th:if="${allTrains.size() == 0}">
+  <div id="alert-2" class="absolute mt-5 left-0 right-0 w-[80vw] mx-auto flex p-4 mb-4 rounded-lg bg-white text-black" role="alert">
+    <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+    <span class="sr-only">Info</span>
+    <div class="ml-3 text-sm font-bold">
+      No any matching results were found!
+    </div>
+    <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8 bg-white text-black hover:bg-black hover:text-white" data-dismiss-target="#alert-2" aria-label="Close">
+      <span class="sr-only">Close</span>
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Message -->
+<div class="w-[30rem] absolute text-xl text-white top-[15vh] left-0 right-0 ml-auto mr-auto text-center" th:if="${message != null}">
+  <div id="loginAlert" class="font-bold flex p-4 mb-4 text-sm rounded-lg bg-white text-green-800" role="alert">
+    <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+    <span class="sr-only">Info</span>
+    <div th:text="${message}">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  const allTrains = document.getElementById("allTrains");
+  const businessTrains = document.getElementById("businessTrains");
+  const standardTrains = document.getElementById("standardTrains");
+  const economyTrains = document.getElementById("economyTrains");
+  function allTr() {
+    allTrains.style.display = "block";
+    businessTrains.style.display = "none";
+    standardTrains.style.display = "none";
+    economyTrains.style.display = "none";
+  }
+  function busTr() {
+    allTrains.style.display = "none";
+    businessTrains.style.display = "block";
+    standardTrains.style.display = "none";
+    economyTrains.style.display = "none";
+  }
+  function staTr() {
+    allTrains.style.display = "none";
+    businessTrains.style.display = "none";
+    standardTrains.style.display = "block";
+    economyTrains.style.display = "none";
+  }
+  function ecoTr() {
+    allTrains.style.display = "none";
+    businessTrains.style.display = "none";
+    standardTrains.style.display = "none";
+    economyTrains.style.display = "block";
+  }
+</script>
+<script type="text/javascript">
+  // Fade out the alert after 3 seconds
+  setTimeout(function() {
+    var alert = document.getElementById("loginAlert");
+    alert.style.opacity = "0";
+    alert.style.transition = "opacity 1s ease-out";
+    setTimeout(function() {
+      alert.parentNode.removeChild(alert);
+    }, 1000); // Remove the alert from the DOM after the transition is done
+  }, 3000);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+</body>
+</html>

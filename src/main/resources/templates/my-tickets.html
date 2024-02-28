@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Menu</title>
+    <link th:href="@{/css/loader.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/12f987d29c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+</head>
+<body class="font-['Poppins'] bg-[#343a40]">
+
+<!-- primary-color-[#212529] -->
+
+<!-- Navigation -->
+<nav class="bg-[#212529] fixed w-full z-20 top-0 left-0 border-b border-white">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a th:href="@{/}" class="text-xl border-2 border-white text-white top-5 left-5 rounded rounded-md bg-transparent z-[999] p-2 px-3 hover:bg-white hover:text-[#212529] hover:cursor-pointer hover:scale-[120%] transition">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <div class="flex md:order-2">
+            <a th:href="@{/trains/all}">
+                <button class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800" type="button">
+                    Back to trains list
+                </button>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- All Tickets table -->
+<div id="allTrains" class="overflow-x-auto mt-[20vh] px-20">
+    <table class="w-full text-sm text-left text-white">
+        <thead class="text-xs uppercase bg-black text-white">
+        <tr>
+            <th scope="col" class="px-10 py-3">Seat #</th>
+            <th scope="col" class="px-10 py-3">Seat price</th>
+            <th scope="col" class="px-10 py-3">Passenger name</th>
+            <th scope="col" class="px-10 py-3">Departure</th>
+            <th scope="col" class="px-10 py-3">From</th>
+            <th scope="col" class="px-10 py-3">To</th>
+            <th scope="col" class="px-[20px] py-3">Train class</th>
+            <th scope="col" class="py-3">
+                <span class="sr-only">Cancel</span>
+            </th>
+        </tr>
+        </thead>
+        <tbody th:each="ticket: ${myTickets}">
+        <tr class="border-b border-gray-700">
+            <th scope="row" class="px-10 py-3 font-medium whitespace-nowrap text-white" th:text="${ticket.getSeatNumber()}"></th>
+            <td class="px-10 py-3" th:text="${'$' + ticket.getTrain().getPrice()}"></td>
+            <td class="px-10 py-3" th:text="${ticket.getPassengerName()}"></td>
+            <td class="px-10 py-3" th:text="${ticket.getTrain().getDeparture().getYear() + '/' + ticket.getTrain().getDeparture().getMonthValue() + '/' + ticket.getTrain().getDeparture().getDayOfMonth() + ' ' + ticket.getTrain().getDeparture().getHour() + ':' + ticket.getTrain().getDeparture().getMinute()}"></td>
+            <td class="px-10 py-3" th:text="${ticket.getTrain().getStartPoint()}"></td>
+            <td class="px-10 py-3" th:text="${ticket.getTrain().getEndPoint()}"></td>
+            <td class="px-[20px] py-3" th:text="${ticket.getTrain().getTrainClass()}"></td>
+            <td class="py-3 flex items-center justify-end">
+                <!-- Select button -->
+                <button th:data-modal-target="${ticket.getId()}" th:data-modal-toggle="${ticket.getId()}" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800" type="button">
+                    Cancel ticket
+                </button>
+            </td>
+            <!-- Balance fill modal -->
+            <div th:id="${ticket.getId()}" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-[#212529] rounded-lg shadow">
+                        <div class="px-6 py-6 lg:px-8">
+                            <h3 class="mb-4 pr-5 text-xl font-bold text-white">This is ticket is bought for passenger: <th:block th:text="${ticket.getPassengerName()}"/></h3>
+                            <h3 class="mb-4 pr-5 text-xl font-bold text-white">Do you want to cancel this ticket? (Remember only 50% of ticket price will be returned to your balance!)</h3>
+                            <div class="flex justify-center items-center space-x-4">
+                                <button th:data-modal-toggle="${ticket.getId()}" type="button" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-transparent border-2 border-white hover:bg-white hover:text-[#212529] transition focus:ring-gray-800">
+                                    No, don't cancel
+                                </button>
+                                <form th:action="@{/user/delete-my-ticket}" method="post">
+                                    <button type="submit" th:value="${ticket.getId()}" name="deleteId" class="block text-white focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-red-900 border-2 border-red hover:bg-black transition focus:ring-gray-800">>
+                                        Yes, cancel ticket
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Message -->
+<div class="w-[30rem] absolute text-xl text-white top-[15vh] left-0 right-0 ml-auto mr-auto text-center" th:if="${message != null}">
+    <div id="loginAlert" class="font-bold flex p-4 mb-4 text-sm rounded-lg bg-white text-green-800" role="alert">
+        <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <span class="sr-only">Info</span>
+        <div th:text="${message}">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const allTrains = document.getElementById("allTrains");
+    const businessTrains = document.getElementById("businessTrains");
+    const standardTrains = document.getElementById("standardTrains");
+    const economyTrains = document.getElementById("economyTrains");
+    function allTr() {
+        allTrains.style.display = "block";
+        businessTrains.style.display = "none";
+        standardTrains.style.display = "none";
+        economyTrains.style.display = "none";
+    }
+    function busTr() {
+        allTrains.style.display = "none";
+        businessTrains.style.display = "block";
+        standardTrains.style.display = "none";
+        economyTrains.style.display = "none";
+    }
+    function staTr() {
+        allTrains.style.display = "none";
+        businessTrains.style.display = "none";
+        standardTrains.style.display = "block";
+        economyTrains.style.display = "none";
+    }
+    function ecoTr() {
+        allTrains.style.display = "none";
+        businessTrains.style.display = "none";
+        standardTrains.style.display = "none";
+        economyTrains.style.display = "block";
+    }
+</script>
+<script type="text/javascript">
+    // Fade out the alert after 3 seconds
+    setTimeout(function() {
+        var alert = document.getElementById("loginAlert");
+        alert.style.opacity = "0";
+        alert.style.transition = "opacity 1s ease-out";
+        setTimeout(function() {
+            alert.parentNode.removeChild(alert);
+        }, 1000); // Remove the alert from the DOM after the transition is done
+    }, 3000);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+</body>
+</html>

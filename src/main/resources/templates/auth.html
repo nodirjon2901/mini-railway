@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link th:href="@{/css/loader.css}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/12f987d29c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-['Poppins'] overflow-hidden">
+<!-- text-primary-color-[#162938] -->
+
+<section class="bg-[#a8dadc80]">
+    <div class="absolute -z-10 rotate-video">
+        <video autoplay loop muted>
+            <source th:src="@{videos/bg.mp4}" type="video/mp4"/>
+        </video>
+    </div>
+    <div class="absolute flex flex-col items-center justify-center px-6 py-8 w-1/2 h-full mr-[50%] md:h-screen lg:py-0 text-[#162938]">
+        <div class="m-auto-0 text-center font-bold text-[3rem] text-[#162938] text-transparent bg-clip-text bg-gradient-to-r to-[#1d3557] from-[#457b9d]">Welcome to railway app made by G21-Group N5</div>
+    </div>
+    <div class="flex flex-col items-center justify-center px-6 py-8 ml-[50%] w-1/2 md:h-screen lg:py-0 text-[#162938]">
+        <div id="login-form" class="hidden w-full bg-transparent border border-2 border-white/50 backdrop-blur-[20px] shadow shadow-[0_0_30px_rgba(0,0,0,0.5)] rounded-[20px] shadow sm:max-w-md xl:p-0">
+            <h1 class="text-center text-3xl mt-10 font-bold">Login</h1>
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <form id="l-form" class="space-y-10" th:action="@{/login}" method="post">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="username" id="login_username" class="block py-2.5 pr-[3rem] text-xl px-0 w-full bg-transparent border-0 border-b-2 appearance-none text-[#162938] border-[#162938] focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label for="login_username" class="peer-focus:font-medium absolute text-xl text-[#162938] duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">Username</label>
+                        <i class="fa-solid fa-user absolute right-[0.5rem] top-[0.6rem] text-xl"></i>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="password" id="login_password" class="block py-2.5 pr-[2.5rem] text-xl px-0 w-full bg-transparent border-0 border-b-2 appearance-none text-[#162938] border-[#162938] focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label for="login_password" class="peer-focus:font-medium absolute text-xl text-[#162938] duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">Password</label>
+                        <i class="fa-solid fa-lock absolute right-[0.5rem] top-[0.6rem] text-xl"></i>
+                    </div>
+                    <button type="submit" class="w-full text-white text-xl focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-[#162938] hover:bg-[#16293890] focus:ring-black">Login</button>
+                    <p class="text-center font-light text-black">
+                        Don't have an account yet? <a href="/" class="font-bold hover:underline text-[#162938]"><button id="register-btn">Register</button></a>
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div id="register-form" class="w-full bg-transparent border border-2 border-white/50 backdrop-blur-[20px] shadow shadow-[0_0_30px_rgba(0,0,0,0.5)] rounded-[20px] shadow sm:max-w-md xl:p-0">
+            <h1 class="text-center text-3xl mt-10 font-bold">Register</h1>
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <form id="r-form" class="space-y-10" th:action="@{/}" method="post">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="fullName" id="register_fullName" class="block py-2.5 pr-[3rem] text-xl px-0 w-full bg-transparent border-0 border-b-2 appearance-none text-[#162938] border-[#162938] focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label for="register_fullName" class="peer-focus:font-medium absolute text-xl text-[#162938] duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">Full name</label>
+                        <i class="fa-solid fa-id-badge absolute right-[0.5rem] top-[0.6rem] text-xl"></i>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="username" id="register_username" class="block py-2.5 pr-[3rem] text-xl px-0 w-full bg-transparent border-0 border-b-2 appearance-none text-[#162938] border-[#162938] focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label for="register_username" class="peer-focus:font-medium absolute text-xl text-[#162938] duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">Username</label>
+                        <i class="fa-solid fa-user absolute right-[0.5rem] top-[0.6rem] text-xl"></i>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="password" id="register_password" class="block py-2.5 pr-[2.5rem] text-xl px-0 w-full bg-transparent border-0 border-b-2 appearance-none text-[#162938] border-[#162938] focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label for="register_password" class="peer-focus:font-medium absolute text-xl text-[#162938] duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">Password</label>
+                        <i class="fa-solid fa-lock absolute right-[0.5rem] top-[0.6rem] text-xl"></i>
+                    </div>
+                    <button type="submit" class="w-full text-white text-xl focus:ring-4 focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-[#162938] hover:bg-[#16293890] focus:ring-black">Register</button>
+                    <p class="text-center font-light text-black">
+                        Already have an account? <a href="/" class="font-bold hover:underline text-[#162938]"><button id="login-btn">Login</button></a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="w-[30rem] absolute text-xl text-white top-5 left-0 right-0 mx-auto text-center" th:if="${message != null}">
+        <div id="loginAlert" class="font-bold flex p-4 mb-4 text-sm rounded-lg bg-[#162938] text-red-600" role="alert">
+            <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">Info</span>
+            <div th:text="${message}">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Loading spinner -->
+<div id="loader" class="hidden lds-ripple absolute right-0 left-0 mx-auto z-10 w-0 rotate-90 -translate-y-[60vh]"><div></div><div></div></div>
+
+<script type="text/javascript">
+    const lForm = document.getElementById('l-form');
+    const rForm = document.getElementById('r-form');
+    const loader = document.getElementById('loader');
+
+    lForm.addEventListener('submit', (event) => {
+        // Prevent form submission
+        event.preventDefault();
+
+        // Show loader
+        loader.classList.remove('hidden');
+
+        // Submit the form after 2 seconds (for demo purposes only)
+        setTimeout(() => {
+            lForm.submit();
+        }, 2000);
+    });
+    rForm.addEventListener('submit', (event) => {
+        // Prevent form submission
+        event.preventDefault();
+
+        // Show loader
+        loader.classList.remove('hidden');
+
+        // Submit the form after 2 seconds (for demo purposes only)
+        setTimeout(() => {
+            rForm.submit();
+        }, 2000);
+    });
+</script>
+<script type="text/javascript">
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+    const loginBtn = document.getElementById("login-btn");
+    const registerBtn = document.getElementById("register-btn");
+    registerBtn.addEventListener("click", () => {
+        loginForm.style.display = "none";
+        registerForm.style.display = "block";
+    });
+    loginBtn.addEventListener("click", () => {
+        loginForm.style.display = "block";
+        registerForm.style.display = "none";
+    });
+</script>
+<script type="text/javascript">
+    // Fade out the alert after 3 seconds
+    setTimeout(function() {
+        var alert = document.getElementById("loginAlert");
+        alert.style.opacity = "0";
+        alert.style.transition = "opacity 1s ease-out";
+        setTimeout(function() {
+            alert.parentNode.removeChild(alert);
+        }, 1000); // Remove the alert from the DOM after the transition is done
+    }, 3000);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+</body>
+</html>
